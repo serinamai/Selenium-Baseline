@@ -27,6 +27,7 @@ public class LandingPageSteps{
                 InteractionsPage.navigateTo(INTERACTIONS_PAGE_URL);
                 break;
             case "Date Picker Page":
+                test.log(Status.INFO, "I navigate to Date Picker page");
                 InteractionsPage.navigateTo(DATE_PICKER_PAGE_URL);
                 break;
             default:
@@ -47,7 +48,8 @@ public class LandingPageSteps{
 
     @Then("Page title is {string}")
     public void pageTitleIs(String title) {
-        test.log(Status.INFO, "I verify the page title");
+        String actualTitle = DriverManager.getDriverManagerInstance().getDriver().getTitle();
+        test.log(Status.INFO, "I verify the page title. Actual result: "+ actualTitle +"- Expected result: "+title);
         Assert.assertEquals("Verify page title is correct", DriverManager.getDriverManagerInstance().getDriver().getTitle(), title);
     }
 
@@ -58,6 +60,7 @@ public class LandingPageSteps{
 
     @Then("I verify date value is set to {int}")
     public void iVerifyDateValueIsSetTo(int date) {
+        test.log(Status.INFO, "I verify date value is set to " + date);
         String actual = new InteractionsPage().datePicker.getAttribute("value");
         Assert.assertTrue(actual.contains(String.valueOf(date)));
     }

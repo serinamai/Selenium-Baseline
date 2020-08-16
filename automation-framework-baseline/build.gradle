@@ -46,7 +46,7 @@ dependencies {
     // https://mvnrepository.com/artifact/io.github.bonigarcia/webdrivermanager
     compile group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '3.8.1'
     // https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java
-    compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '4.0.0-alpha-4'
+    compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.141.59'
 
 }
 

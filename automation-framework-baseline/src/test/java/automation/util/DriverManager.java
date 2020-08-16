@@ -39,6 +39,7 @@ public class DriverManager {
                             }
                         }
                 );
+                WebDriverManager.globalConfig().setTimeout(500);
                 WebDriverManager.chromedriver().setup();
                 webDriver.set(new ChromeDriver(options));
                 break;
