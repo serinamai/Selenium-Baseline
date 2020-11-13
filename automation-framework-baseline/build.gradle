@@ -1,0 +1,70 @@
+plugins {
+    id 'java'
+    id 'java-gradle-plugin'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+wrapper {
+    gradleVersion = '6.2.2'
+}
+
+repositories {
+    mavenCentral()
+    jcenter()
+    maven { url "http://dl.bintray.com/epam/reportportal" }
+}
+
+dependencies {
+    // https://mvnrepository.com/artifact/com.epam.reportportal/agent-java-cucumber
+//    compile group: 'com.epam.reportportal', name: 'agent-java-cucumber4', version: '5.0.0-BETA-9'
+
+    // https://mvnrepository.com/artifact/com.epam.reportportal/client-java
+//    compile group: 'com.epam.reportportal', name: 'client-java', version: '5.0.0-BETA-9'
+
+
+    compile "com.aventstack:extentreports:4.1.4"
+
+    // https://mvnrepository.com/artifact/com.epam.reportportal/commons-model
+    compile group: 'com.epam.reportportal', name: 'commons-model', version: '5.0.0'
+
+    // https://mvnrepository.com/artifact/io.cucumber/cucumber-java
+    compile group: 'io.cucumber', name: 'cucumber-java', version: '5.6.0'
+
+    // https://mvnrepository.com/artifact/io.cucumber/cucumber-core
+    compile group: 'io.cucumber', name: 'cucumber-core', version: '4.7.2'
+
+    // https://mvnrepository.com/artifact/io.cucumber/cucumber-junit
+    testCompile group: 'io.cucumber', name: 'cucumber-junit', version: '4.7.2'
+
+    // https://mvnrepository.com/artifact/junit/junit
+    testCompile group: 'junit', name: 'junit', version: '4.13'
+
+    // https://mvnrepository.com/artifact/io.github.bonigarcia/webdrivermanager
+    compile group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '3.8.1'
+    // https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java
+    compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.141.59'
+
+}
+
+configurations {
+    cucumberRuntime {
+        extendsFrom testImplementation
+    }
+}
+
+task cucumberExec(type: Test){
+    systemProperties System.getProperties()
+    dependsOn assemble, compileTestJava
+    doLast {
+        javaexec {
+            main = "io.cucumber.core.cli.Main"
+            classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
+            args = ['--plugin', 'pretty', "--plugin", "com.epam.reportportal.cucumber.StepReporter", '--glue', 'automation', 'src/test/resources'
+                    ,'--threads', '2']
+        }
+    }
+}
